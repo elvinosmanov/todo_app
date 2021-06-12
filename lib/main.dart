@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/presentation/router.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(TodoApp());
 
-class MyApp extends StatelessWidget {
+class TodoApp extends StatelessWidget {
+  final route = AppRouter();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
-        ),
-      ),
+      onGenerateRoute: route.generate,
     );
   }
 }
