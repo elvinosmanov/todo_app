@@ -1,15 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/presentation/screens/add_todo_screen.dart';
-import 'package:todo_app/presentation/screens/edit_todo_screen.dart';
-import 'package:todo_app/presentation/screens/error_screen.dart';
-import 'package:todo_app/presentation/screens/todos_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../cubit/cubit/todos_cubit.dart';
+import '../data/repositories/repository.dart';
+import '../data/services/network_service.dart';
+import 'screens/add_todo_screen.dart';
+import 'screens/edit_todo_screen.dart';
+import 'screens/error_screen.dart';
+import 'screens/todos_screen.dart';
 
 class AppRouter {
+  Repository repository = Repository(networkRepository: NetworkRepository());
+
   Route generate(RouteSettings settings) {
     switch (settings.name) {
       case TodosScreen.route:
-        return MaterialPageRoute(builder: (_) => TodosScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => TodosCubit(repository: repository),
+                child: TodosScreen()));
       case EditTodoScreen.route:
         return MaterialPageRoute(builder: (_) => EditTodoScreen());
       case AddTodoScreen.route:
