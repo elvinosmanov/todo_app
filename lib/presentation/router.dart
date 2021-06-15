@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/cubit/add_todo/add_todo_cubit.dart';
+import 'package:todo_app/cubit/todos/todos_cubit.dart';
 
-import '../cubit/cubit/todos_cubit.dart';
 import '../data/repositories/repository.dart';
 import '../data/services/network_service.dart';
 import 'screens/add_todo_screen.dart';
@@ -17,13 +18,20 @@ class AppRouter {
     switch (settings.name) {
       case TodosScreen.route:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                create: (context) => TodosCubit(repository: repository),
-                child: TodosScreen()));
+          builder: (_) => BlocProvider(
+            create: (context) => TodosCubit(repository: repository),
+            child: TodosScreen(),
+          ),
+        );
       case EditTodoScreen.route:
         return MaterialPageRoute(builder: (_) => EditTodoScreen());
       case AddTodoScreen.route:
-        return MaterialPageRoute(builder: (_) => AddTodoScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => AddTodoCubit(),
+            child: AddTodoScreen(),
+          ),
+        );
       default:
         return MaterialPageRoute(builder: (_) => ErrorScreen());
     }

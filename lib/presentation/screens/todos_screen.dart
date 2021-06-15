@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/data/models/todo.dart';
-import '../../cubit/cubit/todos_cubit.dart';
+import '../../cubit/todos/todos_cubit.dart';
+import 'edit_todo_screen.dart';
+import '../../data/models/todo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'add_todo_screen.dart';
 
 class TodosScreen extends StatelessWidget {
   static const route = "/";
@@ -18,7 +21,7 @@ class TodosScreen extends StatelessWidget {
           InkWell(
             onTap: () {
               context.read<TodosCubit>().fetchTodos();
-              // Navigator.of(context).pushNamed(AddTodoScreen.route);
+              Navigator.of(context).pushNamed(AddTodoScreen.route);
             },
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -44,7 +47,18 @@ class TodosScreen extends StatelessWidget {
   }
 
   Widget _todo(BuildContext context, Todo todo) {
-    return Dismissible(key: Key("${todo.id}"), child: _todoTile(context, todo));
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, EditTodoScreen.route);
+      },
+      child: Dismissible(
+          key: Key("${todo.id}"),
+          confirmDismiss: (_) {
+            context.read<TodosCubit>().changeCompletion(todo);
+            return Future.value(false);
+          },
+          child: _todoTile(context, todo)),
+    );
   }
 
   Container _todoTile(BuildContext context, Todo todo) {
