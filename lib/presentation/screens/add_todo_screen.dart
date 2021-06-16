@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/cubit/add_todo/add_todo_cubit.dart';
 
 class AddTodoScreen extends StatelessWidget {
   static const route = "/add_todo";
@@ -9,25 +11,34 @@ class AddTodoScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Add Todo'),
       ),
-      body: _body(context),
+      body: BlocListener<AddTodoCubit, AddTodoState>(
+        listener: (context, state) {
+          if (state is TodoAdded) {
+            Navigator.pop(context);
+          }
+        },
+        child: Container(padding: EdgeInsets.all(10.0), child: _body(context)),
+      ),
     );
   }
 
-  Container _body(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Column(
-        children: <Widget>[
-          TextField(
-            controller: _controller,
-            decoration: InputDecoration(hintText: "Enter todo message..."),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          InkWell(child: _addBtn(context))
-        ],
-      ),
+  Column _body(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        TextField(
+          controller: _controller,
+          decoration: InputDecoration(hintText: "Enter todo message..."),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        InkWell(
+            onTap: () {
+              final message = _controller.text;
+              context.read<AddTodoCubit>().addTodo(message.trim());
+            },
+            child: _addBtn(context))
+      ],
     );
   }
 
@@ -36,9 +47,16 @@ class AddTodoScreen extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 50,
       child: Center(
-        child: Text(
-          'Add Todo',
-          style: TextStyle(color: Colors.white),
+        child: BlocBuilder<AddTodoCubit, AddTodoState>(
+          builder: (context, state) {
+            if (state is AddingTodo) {
+              return CircularProgressIndicator();
+            }
+            return Text(
+              'Add Todo',
+              style: TextStyle(color: Colors.white),
+            );
+          },
         ),
       ),
       decoration: BoxDecoration(

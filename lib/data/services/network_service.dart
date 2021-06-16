@@ -26,4 +26,16 @@ class NetworkRepository extends INetworkRepository {
       return false;
     }
   }
+
+  @override
+  Future<Map<String, dynamic>> addTodo(Map<String, String> todoObj) async {
+    try {
+      final respond =
+          await http.post(Uri.parse(baseURl + '/todos'), body: todoObj);
+      Map<String, dynamic> map = jsonDecode(respond.body);
+      return map;
+    } catch (e) {
+      return {};
+    }
+  }
 }

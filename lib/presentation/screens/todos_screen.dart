@@ -20,7 +20,6 @@ class TodosScreen extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              context.read<TodosCubit>().fetchTodos();
               Navigator.of(context).pushNamed(AddTodoScreen.route);
             },
             child: Padding(
@@ -49,7 +48,7 @@ class TodosScreen extends StatelessWidget {
   Widget _todo(BuildContext context, Todo todo) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, EditTodoScreen.route);
+        Navigator.pushNamed(context, EditTodoScreen.route, arguments: todo);
       },
       child: Dismissible(
           key: Key("${todo.id}"),
