@@ -18,7 +18,7 @@ class NetworkRepository extends INetworkRepository {
   }
 
   @override
-  Future<bool> patchTodo(Map<String, String> patchObj, int? id) async {
+  Future<bool> patchTodo(Map<String, dynamic> patchObj, int? id) async {
     try {
       await http.patch(Uri.parse(baseURl + '/todos/$id'), body: patchObj);
       return true;
@@ -28,7 +28,7 @@ class NetworkRepository extends INetworkRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> addTodo(Map<String, String> todoObj) async {
+  Future<Map<String, dynamic>> addTodo(Map<String, dynamic> todoObj) async {
     try {
       final respond =
           await http.post(Uri.parse(baseURl + '/todos'), body: todoObj);
@@ -36,6 +36,26 @@ class NetworkRepository extends INetworkRepository {
       return map;
     } catch (e) {
       return {};
+    }
+  }
+
+  @override
+  Future<bool> deleteTodo(int? id) async {
+    try {
+      await http.delete(Uri.parse(baseURl + '/todos/$id'));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> updateTodo(Map<String, String?> updatedObj, int? id) async {
+    try {
+      await http.patch(Uri.parse(baseURl + '/todos/$id'), body: updatedObj);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }

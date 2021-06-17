@@ -16,6 +16,7 @@ class AddTodoCubit extends Cubit<AddTodoState> {
   void addTodo(String message) {
     if (message.isEmpty) {
       emit(AddTodoError("Todo message is empty"));
+      return;
     }
     emit(AddingTodo());
 

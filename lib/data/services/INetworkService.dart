@@ -1,7 +1,11 @@
 abstract class INetworkRepository {
   Future<List<dynamic>> fetchTodos();
 
-  Future<bool> patchTodo(Map<String, String> patchObj, int? id);
+  Future<bool> patchTodo(Map<String, dynamic> patchObj, int? id);
 
-  Future<Map<String, dynamic>> addTodo(Map<String, String> todoObj);
+  Future<Map<String, dynamic>> addTodo(Map<String, dynamic> todoObj);
+
+  Future<bool> deleteTodo(int? id);
+
+  Future<bool> updateTodo(Map<String, String?> updatedObj, int? id);
 }

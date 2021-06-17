@@ -24,4 +24,13 @@ class Repository {
     if (todoMap.isEmpty) return null;
     return Todo.fromMap(todoMap);
   }
+
+  Future<bool> deleteTodo(int? id) async {
+    return await _networkRepository.deleteTodo(id);
+  }
+
+  Future<bool> updateTodo(String? todoMessage, int? id) async {
+    final updatedObj = {"todoMessage":todoMessage};
+    return await _networkRepository.updateTodo(updatedObj,id);
+  }
 }

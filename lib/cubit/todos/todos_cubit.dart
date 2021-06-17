@@ -38,4 +38,13 @@ class TodosCubit extends Cubit<TodosState> {
       emit(TodosCompleted(todos: todos));
     }
   }
+
+  void deleteTodo(Todo todo) {
+    final currentState = state;
+    if (currentState is TodosCompleted) {
+      final todos = currentState.todos;
+      todos.remove(todo);
+      emit(TodosCompleted(todos: todos));
+    }
+  }
 }

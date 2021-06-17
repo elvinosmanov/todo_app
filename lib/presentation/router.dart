@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/cubit/add_todo/add_todo_cubit.dart';
+import 'package:todo_app/cubit/edit_todo/edit_todo_cubit.dart';
 import 'package:todo_app/cubit/todos/todos_cubit.dart';
 import 'package:todo_app/data/models/todo.dart';
 
@@ -32,9 +33,12 @@ class AppRouter {
       case EditTodoScreen.route:
         final todo = settings.arguments as Todo;
         return MaterialPageRoute(
-            builder: (_) => EditTodoScreen(
-                  todo: todo,
-                ));
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                EditTodoCubit(repository: repository, todosCubit: todosCubit),
+            child: EditTodoScreen(todo: todo,),
+          ),
+        );
       case AddTodoScreen.route:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
