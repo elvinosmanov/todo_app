@@ -12,7 +12,21 @@ class TodosCubit extends Cubit<TodosState> {
   Future<void> fetchTodos() async {
     emit(TodosLoading());
     await Future.delayed(Duration(seconds: 1));
-    repository.fetchTodos().then((todos) => emit(TodosCompleted(todos: todos)));
+    repository.fetchTodos().then(
+      (todos) {
+        if (todos.isEmpty) {
+          emit(TodosEmpty());
+          return;
+        }
+        emit(
+          TodosCompleted(todos: todos),
+        );
+      },
+    ).catchError(
+      (onError) {
+        emit(TodosError(onError.toString()));
+      },
+    );
   }
 
   void changeCompletion(Todo todo) {

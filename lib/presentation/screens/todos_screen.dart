@@ -33,12 +33,25 @@ class TodosScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is TodosLoading) {
             return Center(child: CircularProgressIndicator());
+          } else if (state is TodosCompleted) {
+            final todos = state.todos;
+            return SingleChildScrollView(
+              child: Column(
+                  children: todos.map((todo) => _todo(context, todo)).toList()),
+            );
+          } else if (state is TodosError) {
+            return Center(
+              child: Text(
+                state.error,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            );
           }
-
-          final todos = (state as TodosCompleted).todos;
-          return SingleChildScrollView(
-            child: Column(
-                children: todos.map((todo) => _todo(context, todo)).toList()),
+          return Center(
+            child: Text(
+              'There is no any todo',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           );
         },
       ),

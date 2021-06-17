@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -13,7 +14,7 @@ class NetworkRepository extends INetworkRepository {
       final response = await http.get(Uri.parse(baseURl + '/todos'));
       return jsonDecode(response.body) as List;
     } catch (e) {
-      return [];
+      throw Exception("There is no Network Connection");
     }
   }
 

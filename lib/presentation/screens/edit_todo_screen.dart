@@ -18,11 +18,19 @@ class EditTodoScreen extends StatelessWidget {
         if (state is EditTodoEdited) {
           Navigator.pop(context);
         } else if (state is EditTodoDeleteError) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: Duration(milliseconds: 500),
+            ),
+          );
         } else if (state is EditTodoUpdateError) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              duration: Duration(milliseconds: 500),
+            ),
+          );
         }
       },
       child: Scaffold(

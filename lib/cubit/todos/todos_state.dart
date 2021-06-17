@@ -12,3 +12,11 @@ class TodosCompleted extends TodosState {
 }
 
 class TodosLoading extends TodosState {}
+
+class TodosEmpty extends TodosState {}
+
+class TodosError extends TodosState {
+  final String error;
+
+  TodosError(this.error);
+}
